@@ -12,7 +12,10 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
     
     logfile = sys.argv[1]
-    df = pd.read_csv(logfile, sep="\s+")
+    df = pd.read_csv(logfile, sep="(?<!#)\s+", engine="python")
+    
+    # workaround for extra # at beginning of colnames
+    df.columns = pd.Series(df.columns.str.replace("#\s", "", regex=True))
 
     colnames = df.columns.values
     
